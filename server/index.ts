@@ -5,6 +5,9 @@ import closeWithGrace from 'close-with-grace';
 import getPort, { portNumbers } from 'get-port';
 import Koa from 'koa';
 import compress from 'koa-compress';
+import connect from 'koa-connect';
+import mount from 'koa-mount';
+import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
 
 const MODE = process.env.NODE_ENV ?? 'development';
@@ -21,6 +24,23 @@ const viteDevServer = IS_PROD
 
 const app = new Koa();
 app.use(compress());
+if (viteDevServer) {
+  app.use(connect(viteDevServer.middlewares));
+} else {
+  // Remix fingerprints its assets so we can cache forever.
+  app.use(
+    mount(
+      '/assets',
+      serve('build/client/assets', {
+        maxAge: 1000 * 60 * 60 * 24 * 100,
+        immutable: true,
+      }),
+    ),
+  );
+  // Everything else (like favicon.ico) is cached for an hour. You may want to be
+  // more aggressive with this caching.
+  app.use(mount('/', serve('build/client', { maxAge: 1000 * 60 * 60 })));
+}
 
 app.use(
   createRequestHandler({
