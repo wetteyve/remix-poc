@@ -28,7 +28,7 @@ export default function Root() {
         <Links />
       </head>
       <body>
-        <div id="root">
+        <div id="root" className="flex min-h-screen justify-center">
           <Outlet />
         </div>
       </body>
