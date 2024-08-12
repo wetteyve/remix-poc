@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import closeWithGrace from 'close-with-grace';
 import getPort, { portNumbers } from 'get-port';
 import Koa from 'koa';
+import compress from 'koa-compress';
 import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
 
@@ -20,6 +21,7 @@ const viteDevServer = IS_PROD
     );
 
 const app = new Koa();
+app.use(compress());
 app.use(serve('public'));
 app.use(
   createRequestHandler({
