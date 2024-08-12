@@ -7,10 +7,11 @@ import {
 import { RemixServer } from '@remix-run/react';
 import chalk from 'chalk';
 import { isbot } from 'isbot';
+import React from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
 import { PassThrough } from 'stream';
-import { getEnv, init } from './utils/env.server.ts';
-import { NonceProvider } from './utils/nonce-provider.ts';
+import { getEnv, init } from './utils/env.server';
+import { NonceProvider } from './utils/nonce-provider';
 
 const ABORT_DELAY = 5000;
 
