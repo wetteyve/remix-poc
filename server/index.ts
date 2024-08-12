@@ -5,7 +5,6 @@ import closeWithGrace from 'close-with-grace';
 import getPort, { portNumbers } from 'get-port';
 import Koa from 'koa';
 import compress from 'koa-compress';
-import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
 
 const MODE = process.env.NODE_ENV ?? 'development';
@@ -22,7 +21,7 @@ const viteDevServer = IS_PROD
 
 const app = new Koa();
 app.use(compress());
-app.use(serve('public'));
+
 app.use(
   createRequestHandler({
     // not sure how to make this happy 🤷‍♂️
