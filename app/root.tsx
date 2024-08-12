@@ -1,7 +1,8 @@
 import { LinksFunction, MetaFunction } from '@remix-run/node';
-import { Links, Meta, Outlet } from '@remix-run/react';
+import { Links, Meta, Outlet, Scripts } from '@remix-run/react';
 import React from 'react';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
+import { useNonce } from './utils/nonce-provider';
 
 export const links: LinksFunction = () => {
   return [
@@ -19,6 +20,8 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Root() {
+  const nonce = useNonce();
+
   return (
     <html lang="en">
       <head>
@@ -30,6 +33,7 @@ export default function Root() {
       <body>
         <div id="root" className="flex min-h-screen justify-center">
           <Outlet />
+          <Scripts nonce={nonce} />
         </div>
       </body>
     </html>
