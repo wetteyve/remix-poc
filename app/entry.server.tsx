@@ -104,7 +104,7 @@ function injectStyles(
 ) {
   const body = new PassThrough();
   body.write(
-    `<!DOCTYPE html><html><head>${head} ${styleSheet.getStyleTags()}</head><body><div id="root">`,
+    `<!DOCTYPE html><html lang="en" className="h-full overflow-x-hidden"><head>${head} ${styleSheet.getStyleTags()}</head><body className="bg-background text-foreground"><div id="root">`,
   );
   pipe(body);
   body.write('</div></body></html>');
