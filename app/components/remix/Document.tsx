@@ -15,12 +15,12 @@ const Document = ({
   return (
     <html lang="en" className="h-full overflow-x-hidden">
       <head>
-        <Meta />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         {allowIndexing ? null : (
           <meta name="robots" content="noindex, nofollow" />
         )}
+        <Meta />
         <Links />
       </head>
       <body className="bg-background text-foreground">

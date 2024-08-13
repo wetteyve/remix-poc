@@ -1,0 +1,6 @@
+import { styled } from 'styled-components';
+export const Box = styled('div').withConfig({
+  displayName: "Box",
+  componentId: "sc-v9q9v2-0"
+})(["font-family:system-ui,sans-serif;line-height:1.8;padding:80px;"]);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJzdHlsZWQiLCJCb3giLCJ3aXRoQ29uZmlnIiwiZGlzcGxheU5hbWUiLCJjb21wb25lbnRJZCJdLCJzb3VyY2VzIjpbIi4uLy4uL3N0eWxlZC1jb21wb25lbnRzL3NyYy9Cb3gudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHN0eWxlZCB9IGZyb20gJ3N0eWxlZC1jb21wb25lbnRzJztcblxuZXhwb3J0IGNvbnN0IEJveCA9IHN0eWxlZCgnZGl2JylgXG4gIGZvbnQtZmFtaWx5OiBzeXN0ZW0tdWksIHNhbnMtc2VyaWY7XG4gIGxpbmUtaGVpZ2h0OiAxLjg7XG4gIHBhZGRpbmc6IDgwcHg7XG5gO1xuIl0sIm1hcHBpbmdzIjoiQUFBQSxTQUFTQSxNQUFNLFFBQVEsbUJBQW1CO0FBRTFDLE9BQU8sTUFBTUMsR0FBRyxHQUFHRCxNQUFNLENBQUMsS0FBSyxDQUFDLENBQUFFLFVBQUE7RUFBQUMsV0FBQTtFQUFBQyxXQUFBO0FBQUEsc0VBSS9CIiwiaWdub3JlTGlzdCI6W119
