@@ -18,4 +18,4 @@ node_modules
 *.local.*
 
 # generated files
-/app/components/ui/icons
+/app/components/styled-components

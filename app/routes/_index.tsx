@@ -1,4 +1,8 @@
-import { Link } from '@remix-run/react';
+import {
+  AlertLink,
+  PrimaryLink,
+  SecondaryLink,
+} from '@styled-components/ClickableComponents/Link';
 import React from 'react';
 
 const Index = () => {
@@ -7,9 +11,9 @@ const Index = () => {
       <h1 className="text-xl font-semibold">
         Play SRG 👰‍♀️ & 🤵‍♂️ Remix = PlayNext ❤️‍🔥
       </h1>
-      <Link to="old-about">About Us</Link>
-      <Link to="old-help">Help</Link>
-      <Link to="old-page">other Page</Link>
+      <SecondaryLink to="old-about" text="About us" type="text" />
+      <PrimaryLink to="old-help" text="Help" type="text" />
+      <AlertLink to="old-page" text="Help" type="text" />
     </div>
   );
 };

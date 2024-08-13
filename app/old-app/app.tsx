@@ -1,4 +1,4 @@
-import { Box } from '@app/components/Box';
+import { Box } from '@styled-components/Box';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
