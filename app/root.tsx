@@ -4,12 +4,20 @@ import {
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from '@remix-run/react';
+import { defaultTheme } from '@styled-components/styles/Themes';
 import React from 'react';
-import Document from './components/remix/Document';
+import { createHead } from 'remix-island';
+import { ThemeProvider } from 'styled-components';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
 import { getEnv } from './utils/env.server';
-import { useNonce } from './utils/nonce-provider';
 
 export const links: LinksFunction = () => {
   return [
@@ -32,27 +40,63 @@ export const loader = ({}: LoaderFunctionArgs) => {
   });
 };
 
-const App = () => {
+export const Head = createHead(() => {
   const data = useLoaderData<typeof loader>();
-  const nonce = useNonce();
   const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false';
 
   return (
-    <Document nonce={nonce} allowIndexing={allowIndexing} env={data.ENV}>
-      <div className="flex h-screen flex-col justify-between">
-        <header className="bg-slate-200 p-6">
-          <nav>
-            <div className="text-4xl font-semibold">Header</div>
-          </nav>
-        </header>
-        <div className="flex-1">
-          <Outlet />
+    <>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      {allowIndexing ? null : (
+        <meta name="robots" content="noindex, nofollow" />
+      )}
+      <Meta />
+      <Links />
+    </>
+  );
+});
+
+const App = () => {
+  const data = useLoaderData<typeof loader>();
+  const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false';
+
+  return (
+    <html lang="en" className="h-full overflow-x-hidden">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        {allowIndexing ? null : (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
+        <Meta />
+        <Links />
+      </head>
+      <body className="bg-background text-foreground">
+        <div className="flex h-screen flex-col justify-between">
+          <header className="bg-slate-200 p-6">
+            <nav>
+              <div className="text-4xl font-semibold">Header</div>
+            </nav>
+          </header>
+          <div className="flex-1">
+            <ThemeProvider theme={defaultTheme}>
+              <Outlet />
+            </ThemeProvider>
+          </div>
+          <footer className="bg-slate-200 p-6">
+            <div className="text-4xl font-semibold">Footer</div>
+          </footer>
         </div>
-        <footer className="bg-slate-200 p-6">
-          <div className="text-4xl font-semibold">Footer</div>
-        </footer>
-      </div>
-    </Document>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
   );
 };
 
