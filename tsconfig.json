@@ -18,8 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./types", "./node_modules/@types"],
     "paths": {
-      "@app/*": ["./app/*"],
-      "@tests/*": ["./tests/*"]
+      "@app/*": ["./app/*"]
     }
   }
 }
