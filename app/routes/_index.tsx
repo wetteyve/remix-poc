@@ -2,6 +2,7 @@ import {
   AlertLink,
   PrimaryLink,
   SecondaryLink,
+  TransparentLink,
 } from '@styled-components/ClickableComponents/Link';
 import React from 'react';
 
@@ -11,9 +12,15 @@ const Index = () => {
       <h1 className="text-xl font-semibold">
         Play SRG 👰‍♀️ & 🤵‍♂️ Remix = PlayNext ❤️‍🔥
       </h1>
-      <SecondaryLink to="old-about" text="About us" type="text" />
-      <PrimaryLink to="old-help" text="Help" type="text" />
-      <AlertLink to="old-page" text="Help" type="text" />
+      <PrimaryLink to="old-help" text="Help page" type="text" />
+      <SecondaryLink to="old-about" text="About page" type="text" />
+      <AlertLink to="old-page" text="Another page" type="text" />
+      <TransparentLink
+        to="https://github.com/epicweb-dev/epic-stack"
+        text="Epic Stack 🚀"
+        type="text"
+        showDefaultIcon
+      />
     </div>
   );
 };

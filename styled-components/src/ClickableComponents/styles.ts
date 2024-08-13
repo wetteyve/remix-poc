@@ -192,7 +192,7 @@ export const colorSets: Record<Variant, Required<ColorSet>> = {
     activeBackgroundColor: Colors.GREY_4a4a4a,
     activeColor: Colors.GREY_d2d2d2,
     activeIconColor: Colors.GREY_d2d2d2,
-    hoverBackgroundColor: Colors.GREY_4a4a4a,
+    hoverBackgroundColor: 'transparent',
     hoverColor: Colors.GREY_d2d2d2,
     hoverIconColor: Colors.GREY_d2d2d2,
     disabledBackgroundColor: Colors.GREY_4a4a4a,
