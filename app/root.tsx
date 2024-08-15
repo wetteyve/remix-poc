@@ -1,3 +1,4 @@
+import isPropValid from '@emotion/is-prop-valid';
 import {
   json,
   LinksFunction,
@@ -15,7 +16,7 @@ import {
 import { defaultTheme } from '@styled-components/styles/Themes';
 import React from 'react';
 import { createHead } from 'remix-island';
-import { ThemeProvider } from 'styled-components';
+import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
 import { getEnv } from './utils/env.server';
 
@@ -61,28 +62,33 @@ const App = () => {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <div className="flex h-screen flex-col justify-between">
-        <header className="bg-slate-200 p-6">
-          <nav>
-            <div className="text-4xl font-semibold">Header</div>
-          </nav>
-        </header>
-        <div className="flex-1">
-          <Outlet />
+    <StyleSheetManager
+      shouldForwardProp={isPropValid}
+      enableVendorPrefixes={true}
+    >
+      <ThemeProvider theme={defaultTheme}>
+        <div className="flex h-screen flex-col justify-between">
+          <header className="bg-slate-200 p-6">
+            <nav>
+              <div className="text-4xl font-semibold">Header</div>
+            </nav>
+          </header>
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <footer className="bg-slate-200 p-6">
+            <div className="text-4xl font-semibold">Footer</div>
+          </footer>
         </div>
-        <footer className="bg-slate-200 p-6">
-          <div className="text-4xl font-semibold">Footer</div>
-        </footer>
-      </div>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-        }}
-      />
-      <ScrollRestoration />
-      <Scripts />
-    </ThemeProvider>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
+        <ScrollRestoration />
+        <Scripts />
+      </ThemeProvider>
+    </StyleSheetManager>
   );
 };
 

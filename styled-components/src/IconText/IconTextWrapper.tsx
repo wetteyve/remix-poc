@@ -6,8 +6,8 @@ import IconText from './IconText';
 
 export type TextIconProps = {
   icon: JSX.Element;
-  iconSize?: number;
-  iconColor?: string;
+  iconsize?: number;
+  iconcolor?: string;
   text: string;
   fontSize?: MediaQuery<FontSize>;
   fontType?: FontType;

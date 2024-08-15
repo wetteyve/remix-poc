@@ -6,9 +6,9 @@ import { MediaQuery } from '../styles/Viewports';
 
 type ContentProps = {
   icon?: JSX.Element;
-  iconSize?: number;
-  iconColor?: string;
-  iconPositionRight?: boolean;
+  iconsize?: number;
+  iconcolor?: string;
+  iconpositionright?: boolean;
   text?: string;
   fontSize?: MediaQuery<FontSize>;
   fontType?: FontType;
@@ -25,8 +25,8 @@ export const getContent = (props: ContentProps) => {
     return (
       <IconWrapper
         icon={props.icon}
-        color={props.iconColor}
-        size={props.iconSize}
+        color={props.iconcolor}
+        size={props.iconsize}
         iconIndicator={props.iconIndicator}
       />
     );

@@ -28,7 +28,7 @@ function Button({
   expand = false,
   fontType = 'Regular',
   icon,
-  iconSize = 24,
+  iconsize = 24,
   iconIndicator = false,
   isActive = false,
   isDisabled = false,
@@ -58,8 +58,8 @@ function Button({
         fontType,
         fontSize,
         icon,
-        iconColor: colorSet.iconColor,
-        iconSize,
+        iconcolor: colorSet.iconcolor,
+        iconsize,
         iconIndicator,
         multilineText: rest.multilineText,
         text,
@@ -113,7 +113,7 @@ export const ToggleButton = (props: ButtonIconProps | ButtonTextProps) => {
   return Button({
     colorSet: {
       ...colorSets.toggle,
-      hoverIconColor: props.isActive ? Colors.WHITE : Colors.GREY_969696,
+      hovericoncolor: props.isActive ? Colors.WHITE : Colors.GREY_969696,
       hoverColor: props.isActive ? Colors.WHITE : Colors.GREY_969696,
     },
     ariaPressed: props.isActive,

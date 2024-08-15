@@ -6,7 +6,7 @@ import { ellipsis } from '../styles/style-helper';
 import { TextIconProps } from './IconTextWrapper';
 
 export type IconTextProps = TextIconProps & {
-  iconPositionRight?: boolean;
+  iconpositionright?: boolean;
   fontColor?: string;
   multilineText?: boolean;
   iconIndicator?: boolean;
@@ -14,9 +14,9 @@ export type IconTextProps = TextIconProps & {
 
 const IconText = ({
   icon,
-  iconSize = 24,
-  iconColor = 'inherit',
-  iconPositionRight = false,
+  iconsize = 24,
+  iconcolor = 'inherit',
+  iconpositionright = false,
   text,
   fontSize = fontBySize.default,
   fontType = 'Regular',
@@ -27,9 +27,9 @@ const IconText = ({
 }: IconTextProps) => (
   <Fragment>
     <Icon
-      iconSize={iconSize}
-      iconColor={iconColor}
-      iconPositionRight={iconPositionRight}
+      iconsize={iconsize}
+      iconcolor={iconcolor}
+      iconpositionright={iconpositionright ? 'true' : 'false'}
     >
       {icon}
       {iconIndicator && <Indicator />}
@@ -49,16 +49,16 @@ const IconText = ({
 export default IconText;
 
 const Icon = styled.div<{
-  iconSize: number;
-  iconColor: string;
-  iconPositionRight: boolean;
+  iconsize: number;
+  iconcolor: string;
+  iconpositionright: 'true' | 'false';
 }>`
-  font-size: ${({ iconSize }) => iconSize}px;
-  height: ${({ iconSize }) => iconSize}px;
-  color: ${({ iconColor }) => iconColor};
+  font-size: ${({ iconsize }) => iconsize}px;
+  height: ${({ iconsize }) => iconsize}px;
+  color: ${({ iconcolor }) => iconcolor};
   box-sizing: content-box;
   display: flex;
-  order: ${({ iconPositionRight }) => (iconPositionRight ? 1 : 0)};
+  order: ${({ iconpositionright }) => (iconpositionright === 'true' ? 1 : 0)};
 `;
 
 export const Text = styled(({ className, children }: any) => (

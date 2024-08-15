@@ -19,16 +19,16 @@ export type RequiredTextIcon = {
 
 export type ColorSet = {
   color?: string;
-  iconColor?: string;
+  iconcolor?: string;
   backgroundColor?: string;
   hoverColor?: string;
-  hoverIconColor?: string;
+  hovericoncolor?: string;
   hoverBackgroundColor?: string;
   activeColor?: string;
-  activeIconColor?: string;
+  activeiconcolor?: string;
   activeBackgroundColor?: string;
   disabledColor?: string;
-  disabledIconColor?: string;
+  disablediconcolor?: string;
   disabledBackgroundColor?: string;
 };
 
@@ -49,7 +49,7 @@ type Base = {
   expand: boolean;
   fontType: FontType;
   fontSize: MediaQuery<FontSize>;
-  iconPositionRight?: boolean;
+  iconpositionright?: boolean;
   isDisabled: boolean;
   leftAligned: boolean;
   multilineText: boolean;
@@ -65,7 +65,7 @@ export type BaseStyle = Base & {
 export type SharedProps = Partial<Base> & {
   ariaLabel?: string;
   className?: string;
-  iconSize?: number;
+  iconsize?: number;
   iconIndicator?: boolean;
   tabIndex?: number;
 };

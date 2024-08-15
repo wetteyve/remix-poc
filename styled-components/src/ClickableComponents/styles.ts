@@ -129,10 +129,10 @@ export const baseStyle = css<BaseStyle>`
   border-radius: 2px;
 
   ${({ isActive, isDisabled, colorSet }) => {
-    if (isActive && !!colorSet.activeIconColor)
-      return `svg { color: ${colorSet.activeIconColor}; }`;
-    if (isDisabled && !!colorSet.disabledIconColor)
-      return `svg { color: ${colorSet.disabledIconColor}; }`;
+    if (isActive && !!colorSet.activeiconcolor)
+      return `svg { color: ${colorSet.activeiconcolor}; }`;
+    if (isDisabled && !!colorSet.disablediconcolor)
+      return `svg { color: ${colorSet.disablediconcolor}; }`;
   }}
 
   ${Device.mouse} {
@@ -141,8 +141,8 @@ export const baseStyle = css<BaseStyle>`
         colorSet.hoverBackgroundColor ?? colorSet.backgroundColor};
       color: ${({ colorSet }) => colorSet.hoverColor ?? colorSet.color};
       ${({ colorSet }) => {
-        if (colorSet.hoverIconColor || colorSet.hoverColor) {
-          return `svg { color: ${colorSet.hoverIconColor || colorSet.hoverColor}; }`;
+        if (colorSet.hovericoncolor || colorSet.hoverColor) {
+          return `svg { color: ${colorSet.hovericoncolor || colorSet.hoverColor}; }`;
         }
       }}
     }
@@ -159,72 +159,72 @@ export const baseStyle = css<BaseStyle>`
 export const colorSets: Record<Variant, Required<ColorSet>> = {
   primary: {
     color: Colors.GREY_232323,
-    iconColor: Colors.GREY_232323,
+    iconcolor: Colors.GREY_232323,
     backgroundColor: Colors.GREY_d2d2d2,
     activeBackgroundColor: Colors.GREY_e1e1e1,
     activeColor: Colors.GREY_232323,
-    activeIconColor: Colors.GREY_232323,
+    activeiconcolor: Colors.GREY_232323,
     hoverBackgroundColor: Colors.GREY_e1e1e1,
     hoverColor: Colors.GREY_232323,
-    hoverIconColor: Colors.GREY_232323,
+    hovericoncolor: Colors.GREY_232323,
     disabledBackgroundColor: Colors.GREY_e1e1e1,
     disabledColor: hexWithOpacity(Colors.GREY_515151, 50),
-    disabledIconColor: hexWithOpacity(Colors.GREY_515151, 50),
+    disablediconcolor: hexWithOpacity(Colors.GREY_515151, 50),
   },
   secondary: {
     color: Colors.WHITE,
-    iconColor: Colors.WHITE,
+    iconcolor: Colors.WHITE,
     backgroundColor: Colors.GREY_3a3a3a,
     activeBackgroundColor: Colors.GREY_4a4a4a,
     activeColor: Colors.WHITE,
-    activeIconColor: Colors.WHITE,
+    activeiconcolor: Colors.WHITE,
     hoverBackgroundColor: Colors.GREY_4a4a4a,
     hoverColor: Colors.WHITE,
-    hoverIconColor: Colors.WHITE,
+    hovericoncolor: Colors.WHITE,
     disabledBackgroundColor: Colors.GREY_2a2a2a,
     disabledColor: hexWithOpacity(Colors.WHITE, 50),
-    disabledIconColor: hexWithOpacity(Colors.WHITE, 50),
+    disablediconcolor: hexWithOpacity(Colors.WHITE, 50),
   },
   transparent: {
     color: Colors.GREY_d2d2d2,
-    iconColor: Colors.GREY_d2d2d2,
+    iconcolor: Colors.GREY_d2d2d2,
     backgroundColor: 'transparent',
     activeBackgroundColor: Colors.GREY_4a4a4a,
     activeColor: Colors.GREY_d2d2d2,
-    activeIconColor: Colors.GREY_d2d2d2,
+    activeiconcolor: Colors.GREY_d2d2d2,
     hoverBackgroundColor: 'transparent',
     hoverColor: Colors.GREY_d2d2d2,
-    hoverIconColor: Colors.GREY_d2d2d2,
+    hovericoncolor: Colors.GREY_d2d2d2,
     disabledBackgroundColor: Colors.GREY_4a4a4a,
     disabledColor: hexWithOpacity(Colors.GREY_d2d2d2, 50),
-    disabledIconColor: hexWithOpacity(Colors.GREY_d2d2d2, 50),
+    disablediconcolor: hexWithOpacity(Colors.GREY_d2d2d2, 50),
   },
   alert: {
     color: Colors.WHITE,
-    iconColor: Colors.WHITE,
+    iconcolor: Colors.WHITE,
     backgroundColor: Colors.RED_cc001a,
     activeBackgroundColor: Colors.RED_d50000,
     activeColor: Colors.WHITE,
-    activeIconColor: Colors.WHITE,
+    activeiconcolor: Colors.WHITE,
     hoverBackgroundColor: Colors.RED_d50000,
     hoverColor: Colors.WHITE,
-    hoverIconColor: Colors.WHITE,
+    hovericoncolor: Colors.WHITE,
     disabledBackgroundColor: Colors.RED_cc001a,
     disabledColor: hexWithOpacity(Colors.WHITE, 50),
-    disabledIconColor: hexWithOpacity(Colors.WHITE, 50),
+    disablediconcolor: hexWithOpacity(Colors.WHITE, 50),
   },
   toggle: {
     color: Colors.GREY_969696,
     hoverColor: 'inherit',
     activeColor: Colors.WHITE,
-    iconColor: Colors.GREY_969696,
-    hoverIconColor: 'inherit',
-    activeIconColor: Colors.WHITE,
+    iconcolor: Colors.GREY_969696,
+    hovericoncolor: 'inherit',
+    activeiconcolor: Colors.WHITE,
     backgroundColor: 'transparent',
     hoverBackgroundColor: Colors.GREY_4a4a4a,
     activeBackgroundColor: Colors.GREY_4a4a4a,
     disabledBackgroundColor: 'transparent',
     disabledColor: hexWithOpacity(Colors.GREY_969696, 50),
-    disabledIconColor: hexWithOpacity(Colors.GREY_969696, 50),
+    disablediconcolor: hexWithOpacity(Colors.GREY_969696, 50),
   },
 };
