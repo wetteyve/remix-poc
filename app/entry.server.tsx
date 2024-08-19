@@ -14,6 +14,7 @@ import { PassThrough } from 'stream';
 import { ServerStyleSheet } from 'styled-components';
 import { Head } from './root';
 import { getEnv, init } from './utils/env.server';
+import { useNonce } from './utils/providers/nonce.provider';
 
 const ABORT_DELAY = 5000;
 
@@ -34,6 +35,7 @@ export default async function handleRequest(...args: DocRequestArgs) {
   return new Promise(async (resolve, reject) => {
     let didError = false;
     let shellRendered = false;
+    const nonce = useNonce();
 
     const { pipe, abort } = renderToPipeableStream(
       styleSheet.collectStyles(

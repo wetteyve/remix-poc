@@ -2,10 +2,12 @@ import { ServerBuild } from '@remix-run/node';
 import { ip as ipAddress } from 'address';
 import chalk from 'chalk';
 import closeWithGrace from 'close-with-grace';
+import crypto from 'crypto';
 import getPort, { portNumbers } from 'get-port';
 import Koa from 'koa';
 import compress from 'koa-compress';
 import connect from 'koa-connect';
+import helmet from 'koa-helmet';
 import mount from 'koa-mount';
 import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
@@ -41,14 +43,51 @@ if (viteDevServer) {
   // more aggressive with this caching.
   app.use(mount('/', serve('build/client', { maxAge: 1000 * 60 * 60 })));
 }
+app.use(async (ctx, next) => {
+  ctx.state.cspNonce = crypto.randomBytes(16).toString('hex');
+  await next();
+});
+app.use(
+  helmet({
+    xPoweredBy: false,
+    referrerPolicy: { policy: 'same-origin' },
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      // NOTE: Remove reportOnly when you're ready to enforce this CSP
+      reportOnly: true,
+      directives: {
+        'connect-src': [
+          MODE === 'development' ? 'ws:' : null,
+          process.env.SENTRY_DSN ? '*.sentry.io' : null,
+          "'self'",
+        ].filter(Boolean) as string[],
+        'font-src': ["'self'"],
+        'frame-src': ["'self'"],
+        'img-src': ["'self'", 'data:'],
+        'script-src': [
+          "'strict-dynamic'",
+          "'self'",
+          // @ts-expect-error
+          (_, res) => `'nonce-${res.locals.cspNonce}'`,
+        ],
+        'script-src-attr': [
+          // @ts-expect-error
+          (_, res) => `'nonce-${res.locals.cspNonce}'`,
+        ],
+        'upgrade-insecure-requests': null,
+      },
+    },
+  }),
+);
 
 app.use(
   createRequestHandler({
     // not sure how to make this happy 🤷‍♂️
     build: getBuild as unknown as ServerBuild,
     mode: MODE,
-    getLoadContext: () => ({
+    getLoadContext: (ctx) => ({
       serverBuild: getBuild(),
+      cspNonce: ctx.state.cspNonce,
     }),
   }),
 );
