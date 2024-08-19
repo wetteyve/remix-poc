@@ -6,12 +6,12 @@ import { getHintUtils } from '@epic-web/client-hints';
 import {
   clientHint as colorSchemeHint,
   subscribeToSchemeChange,
-} from '@epic-web/client-hints/dist/color-scheme';
-import { clientHint as timeZoneHint } from '@epic-web/client-hints/dist/time-zone';
+} from '@epic-web/client-hints/color-scheme';
+import { clientHint as timeZoneHint } from '@epic-web/client-hints/time-zone';
 import { invariant } from '@epic-web/invariant';
 import { useRevalidator, useRouteLoaderData } from '@remix-run/react';
 import * as React from 'react';
-import { type loader as rootLoader } from '../../root';
+import { type loader as rootLoader } from '../../root.js';
 
 const hintsUtils = getHintUtils({
   theme: colorSchemeHint,

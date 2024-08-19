@@ -54,27 +54,30 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   });
 };
 
-export const Head = createHead(({ nonce }: { nonce?: string }) => {
-  const data = useLoaderData<typeof loader>();
-  const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false';
+export const getHead = (nonce: string) =>
+  createHead(() => {
+    const data = useLoaderData<typeof loader>();
+    const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false';
 
-  return (
-    <>
-      <ClientHintCheck nonce={nonce ?? ''} />
-      <Meta />
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1" />
-      {allowIndexing ? null : (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
-      <Links />
-    </>
-  );
-});
+    return (
+      <>
+        <ClientHintCheck nonce={nonce} />
+        <Meta />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        {allowIndexing ? null : (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
+        <Links />
+      </>
+    );
+  });
 
 const App = () => {
   const data = useLoaderData<typeof loader>();
   const nonce = useNonce();
+
+  console.log('data', data);
 
   return (
     <StyleSheetManager
@@ -96,12 +99,13 @@ const App = () => {
           </footer>
         </div>
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
           }}
         />
-        <ScrollRestoration />
-        <Scripts />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </ThemeProvider>
     </StyleSheetManager>
   );

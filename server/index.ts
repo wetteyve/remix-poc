@@ -43,10 +43,13 @@ if (viteDevServer) {
   // more aggressive with this caching.
   app.use(mount('/', serve('build/client', { maxAge: 1000 * 60 * 60 })));
 }
-app.use(async (ctx, next) => {
-  ctx.state.cspNonce = crypto.randomBytes(16).toString('hex');
-  await next();
+app.use((ctx, next) => {
+  const cspNonce = crypto.randomBytes(16).toString('hex');
+  ctx.set('CSP', cspNonce);
+  ctx.state.cspNonce = cspNonce;
+  next();
 });
+
 app.use(
   helmet({
     xPoweredBy: false,
@@ -67,13 +70,9 @@ app.use(
         'script-src': [
           "'strict-dynamic'",
           "'self'",
-          // @ts-expect-error
-          (_, res) => `'nonce-${res.locals.cspNonce}'`,
+          (req) => `'nonce-${req.headers['CSP']}'`,
         ],
-        'script-src-attr': [
-          // @ts-expect-error
-          (_, res) => `'nonce-${res.locals.cspNonce}'`,
-        ],
+        'script-src-attr': [(req) => `'nonce-${req.headers['CSP']}'`],
         'upgrade-insecure-requests': null,
       },
     },
