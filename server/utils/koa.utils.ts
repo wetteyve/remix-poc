@@ -11,16 +11,11 @@ import helmet from 'koa-helmet';
 import mount from 'koa-mount';
 import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
-import { ViteDevServer } from 'vite';
-import { ServerMode } from '../../app/utils/env.server.js';
-import { getVideDevServer } from './vite.utils.js';
+import { MODE, viteDevServer } from '../index.js';
 
 export const setupCompression = (app: Koa) => app.use(compress());
 
-export const setupStaticFileServing = (
-  app: Koa,
-  viteDevServer?: ViteDevServer,
-) => {
+export const setupStaticFileServing = (app: Koa) => {
   if (viteDevServer) {
     app.use(connect(viteDevServer.middlewares));
   } else {
@@ -40,10 +35,7 @@ export const setupStaticFileServing = (
   }
 };
 
-export const setupContentSecurityPolicy = async (
-  app: Koa,
-  MODE: ServerMode,
-) => {
+export const setupContentSecurityPolicy = async (app: Koa) => {
   app.use(async (ctx, next) => {
     const cspNonce = crypto.randomBytes(16).toString('hex');
     ctx.set('CSP', cspNonce);
@@ -78,7 +70,7 @@ export const setupContentSecurityPolicy = async (
   );
 };
 
-export const setupRemixKoaApp = (app: Koa, MODE: ServerMode) =>
+export const setupRemixKoaApp = (app: Koa) =>
   app.use(
     createRequestHandler({
       // not sure how to make this happy 🤷‍♂️
@@ -92,7 +84,6 @@ export const setupRemixKoaApp = (app: Koa, MODE: ServerMode) =>
   );
 
 async function getBuild() {
-  const viteDevServer = await getVideDevServer();
   const build = viteDevServer
     ? viteDevServer.ssrLoadModule('virtual:remix/server-build')
     : // @ts-ignore this should exist before running the server
@@ -111,7 +102,7 @@ export const setupIndexing = (app: Koa) => {
   }
 };
 
-export const startKoaServer = async (app: Koa, MODE: ServerMode) => {
+export const startKoaServer = async (app: Koa) => {
   const IS_DEV = MODE === 'development';
 
   const desiredPort = Number(process.env.PORT || 3000);
