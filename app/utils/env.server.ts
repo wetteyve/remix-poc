@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
+const serverModes = ['production', 'development', 'test', 'staging'] as const;
+export type ServerMode = (typeof serverModes)[number];
+
 const schema = z.object({
-  NODE_ENV: z.enum(['production', 'development', 'test'] as const),
+  NODE_ENV: z.enum(serverModes),
   ALLOW_INDEXING: z.enum(['true', 'false']).optional(),
 });
 
@@ -35,7 +38,7 @@ export function init() {
  */
 export function getEnv() {
   return {
-    MODE: process.env.NODE_ENV,
+    MODE: process.env.NODE_ENV as ServerMode,
     ALLOW_INDEXING: process.env.ALLOW_INDEXING,
   };
 }

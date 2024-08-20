@@ -18,7 +18,13 @@ import React from 'react';
 import { createHead } from 'remix-island';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
+import { useNonce } from './utils//providers/nonce.provider';
 import { getEnv } from './utils/env.server';
+import {
+  ClientHintCheck,
+  getHints,
+} from './utils/providers/client-hints.provider';
+import { getTheme } from './utils/theme.server';
 
 export const links: LinksFunction = () => {
   return [
@@ -35,31 +41,41 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader = ({}: LoaderFunctionArgs) => {
+export const loader = ({ request }: LoaderFunctionArgs) => {
   return json({
     ENV: getEnv(),
+    requestInfo: {
+      hints: getHints(request),
+      path: new URL(request.url).pathname,
+      userPrefs: {
+        theme: getTheme(request),
+      },
+    },
   });
 };
 
-export const Head = createHead(() => {
-  const data = useLoaderData<typeof loader>();
-  const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false';
+export const getHead = (nonce: string) =>
+  createHead(() => {
+    const data = useLoaderData<typeof loader>();
+    const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false';
 
-  return (
-    <>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1" />
-      {allowIndexing ? null : (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
-      <Meta />
-      <Links />
-    </>
-  );
-});
+    return (
+      <>
+        <ClientHintCheck nonce={nonce} />
+        <Meta />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        {allowIndexing ? null : (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
+        <Links />
+      </>
+    );
+  });
 
 const App = () => {
   const data = useLoaderData<typeof loader>();
+  const nonce = useNonce();
 
   return (
     <StyleSheetManager
@@ -81,12 +97,13 @@ const App = () => {
           </footer>
         </div>
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
           }}
         />
-        <ScrollRestoration />
-        <Scripts />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </ThemeProvider>
     </StyleSheetManager>
   );
