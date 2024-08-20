@@ -4,6 +4,6 @@
 
 @layer base {
   :root {
-    --font-sans: url('/fonts/SRGSSRTypeVF_Text_W_Wght.woff2');
+    --font-sans: 'SRGSSRType';
   }
 }

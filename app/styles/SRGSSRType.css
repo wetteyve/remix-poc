@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'SRGSSRType';
+  src:
+    url('/fonts/SRGSSRType.woff2') format('woff2'),
+    url('/fonts/SRGSSRType.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
