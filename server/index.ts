@@ -10,18 +10,18 @@ import {
 } from './utils/koa.utils.js';
 import { getVideDevServer } from './utils/vite.utils.js';
 
-const MODE = (process.env.NODE_ENV as ServerMode) ?? 'development';
+export const MODE = (process.env.NODE_ENV as ServerMode) ?? 'development';
 
 // Create a vite dev server if needed.
-const viteDevServer = await getVideDevServer(MODE);
+export const viteDevServer = await getVideDevServer();
 
 // Setup a new Koa app.
 const app = new Koa();
 setupCompression(app);
-setupStaticFileServing(app, viteDevServer);
-setupContentSecurityPolicy(app, MODE);
-setupRemixKoaApp(app, MODE, viteDevServer);
+setupStaticFileServing(app);
+setupContentSecurityPolicy(app);
+setupRemixKoaApp(app);
 setupIndexing(app);
 
 // Start the server.
-startKoaServer(app, MODE);
+startKoaServer(app);
