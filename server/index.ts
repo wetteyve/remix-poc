@@ -16,6 +16,7 @@ const MODE = process.env.NODE_ENV ?? 'development';
 const IS_PROD = MODE === 'production';
 const IS_DEV = MODE === 'development';
 const ALLOW_INDEXING = process.env.ALLOW_INDEXING !== 'false';
+
 const viteDevServer = IS_PROD
   ? undefined
   : await import('vite').then((vite) =>
@@ -25,6 +26,10 @@ const viteDevServer = IS_PROD
     );
 
 const app = new Koa();
+
+const getHost = (req: { get: (key: string) => string | undefined }) =>
+  req.get('X-Forwarded-Host') ?? req.get('host') ?? '';
+
 app.use(compress());
 if (viteDevServer) {
   app.use(connect(viteDevServer.middlewares));
@@ -43,37 +48,33 @@ if (viteDevServer) {
   // more aggressive with this caching.
   app.use(mount('/', serve('build/client', { maxAge: 1000 * 60 * 60 })));
 }
-app.use((ctx, next) => {
+app.use(async (ctx, next) => {
   const cspNonce = crypto.randomBytes(16).toString('hex');
   ctx.set('CSP', cspNonce);
-  ctx.state.cspNonce = cspNonce;
-  next();
+  await next();
 });
 
 app.use(
   helmet({
-    xPoweredBy: false,
     referrerPolicy: { policy: 'same-origin' },
-    crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       // NOTE: Remove reportOnly when you're ready to enforce this CSP
-      reportOnly: true,
+      reportOnly: false,
       directives: {
-        'connect-src': [
+        connectSrc: [
           MODE === 'development' ? 'ws:' : null,
           process.env.SENTRY_DSN ? '*.sentry.io' : null,
           "'self'",
         ].filter(Boolean) as string[],
-        'font-src': ["'self'"],
-        'frame-src': ["'self'"],
-        'img-src': ["'self'", 'data:'],
-        'script-src': [
+        fontSrc: ["'self'"],
+        frameSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:'],
+        scriptSrc: [
           "'strict-dynamic'",
           "'self'",
-          (req) => `'nonce-${req.headers['CSP']}'`,
+          (_, res) => `'nonce-${res.getHeader('CSP')}'`,
         ],
-        'script-src-attr': [(req) => `'nonce-${req.headers['CSP']}'`],
-        'upgrade-insecure-requests': null,
+        scriptSrcAttr: [(_, res) => `'nonce-${res.getHeader('CSP')}'`],
       },
     },
   }),
@@ -86,7 +87,7 @@ app.use(
     mode: MODE,
     getLoadContext: (ctx) => ({
       serverBuild: getBuild(),
-      cspNonce: ctx.state.cspNonce,
+      cspNonce: ctx.response.get('CSP'),
     }),
   }),
 );
