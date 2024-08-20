@@ -13,6 +13,7 @@ import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
 import { ViteDevServer } from 'vite';
 import { ServerMode } from '../../app/utils/env.server.js';
+import { getVideDevServer } from './vite.utils.js';
 
 export const setupCompression = (app: Koa) => app.use(compress());
 
@@ -53,7 +54,6 @@ export const setupContentSecurityPolicy = async (
     helmet({
       referrerPolicy: { policy: 'same-origin' },
       contentSecurityPolicy: {
-        // NOTE: Remove reportOnly when you're ready to enforce this CSP
         reportOnly: false,
         directives: {
           connectSrc: [
@@ -70,30 +70,29 @@ export const setupContentSecurityPolicy = async (
             (_, res) => `'nonce-${res.getHeader('CSP')}'`,
           ],
           scriptSrcAttr: [(_, res) => `'nonce-${res.getHeader('CSP')}'`],
+          'upgrade-insecure-requests': null,
         },
       },
+      noSniff: false,
     }),
   );
 };
 
-export const setupRemixKoaApp = (
-  app: Koa,
-  MODE: ServerMode,
-  viteDevServer?: ViteDevServer,
-) =>
+export const setupRemixKoaApp = (app: Koa, MODE: ServerMode) =>
   app.use(
     createRequestHandler({
       // not sure how to make this happy 🤷‍♂️
       build: getBuild as unknown as ServerBuild,
       mode: MODE,
       getLoadContext: (ctx) => ({
-        serverBuild: getBuild(viteDevServer),
+        serverBuild: getBuild(),
         cspNonce: ctx.response.get('CSP'),
       }),
     }),
   );
 
-async function getBuild(viteDevServer?: ViteDevServer) {
+async function getBuild() {
+  const viteDevServer = await getVideDevServer();
   const build = viteDevServer
     ? viteDevServer.ssrLoadModule('virtual:remix/server-build')
     : // @ts-ignore this should exist before running the server
