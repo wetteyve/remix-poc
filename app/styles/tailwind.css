@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: url('/fonts/SRGSSRTypeVF_Text_W_Wght.woff2');
+  }
+}
