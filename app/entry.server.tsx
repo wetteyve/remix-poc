@@ -12,9 +12,8 @@ import { renderToPipeableStream } from 'react-dom/server';
 import { renderHeadToString } from 'remix-island';
 import { PassThrough } from 'stream';
 import { ServerStyleSheet } from 'styled-components';
-import { getHead } from './root';
+import { Head } from './root';
 import { getEnv, init } from './utils/env.server';
-import { NonceProvider } from './utils/providers/nonce.provider';
 
 const ABORT_DELAY = 5000;
 
@@ -24,20 +23,13 @@ global.ENV = getEnv();
 type DocRequestArgs = Parameters<HandleDocumentRequestFunction>;
 
 export default async function handleRequest(...args: DocRequestArgs) {
-  const [
-    request,
-    responseStatusCode,
-    responseHeaders,
-    remixContext,
-    loadContext,
-  ] = args;
+  const [request, responseStatusCode, responseHeaders, remixContext] = args;
 
   const callbackName = isbot(request.headers.get('user-agent'))
     ? 'onAllReady'
     : 'onShellReady';
 
   const styleSheet = new ServerStyleSheet();
-  const nonce = loadContext.cspNonce?.toString() ?? '';
 
   return new Promise(async (resolve, reject) => {
     let didError = false;
@@ -45,13 +37,11 @@ export default async function handleRequest(...args: DocRequestArgs) {
 
     const { pipe, abort } = renderToPipeableStream(
       styleSheet.collectStyles(
-        <NonceProvider value={nonce}>
-          <RemixServer
-            context={remixContext}
-            url={request.url}
-            abortDelay={ABORT_DELAY}
-          />
-        </NonceProvider>,
+        <RemixServer
+          context={remixContext}
+          url={request.url}
+          abortDelay={ABORT_DELAY}
+        />,
       ),
       {
         [callbackName]: () => {
@@ -60,7 +50,7 @@ export default async function handleRequest(...args: DocRequestArgs) {
           const head = renderHeadToString({
             request,
             remixContext,
-            Head: getHead(nonce),
+            Head,
           });
           const body = injectStyles(head, styleSheet, pipe);
           const stream = createReadableStreamFromReadable(body);
@@ -78,7 +68,6 @@ export default async function handleRequest(...args: DocRequestArgs) {
         onError: () => {
           didError = true;
         },
-        nonce,
       },
     );
 
