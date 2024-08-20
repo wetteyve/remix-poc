@@ -77,8 +77,6 @@ const App = () => {
   const data = useLoaderData<typeof loader>();
   const nonce = useNonce();
 
-  console.log('data', data);
-
   return (
     <StyleSheetManager
       shouldForwardProp={isPropValid}
