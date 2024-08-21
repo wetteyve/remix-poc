@@ -19,11 +19,11 @@ import { createHead } from 'remix-island';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
 import { useNonce } from './utils//providers/nonce.provider';
-import { getEnv } from './utils/env.server';
 import {
   ClientHintCheck,
   getHints,
 } from './utils/providers/client-hints.provider';
+import { getEnv } from './utils/server/env.server';
 import { getTheme } from './utils/theme.server';
 
 export const links: LinksFunction = () => {
