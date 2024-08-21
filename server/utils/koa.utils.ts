@@ -36,9 +36,12 @@ export const setupStaticFileServing = (app: Koa) => {
 };
 
 export const setupContentSecurityPolicy = async (app: Koa) => {
+  // Workarround because we can't access the ctx object during the helmet middleware
+  let tempNonce: string = '';
   app.use(async (ctx, next) => {
     const cspNonce = crypto.randomBytes(16).toString('hex');
-    ctx.set('CSP', cspNonce);
+    ctx.state.cspNonce = cspNonce;
+    tempNonce = cspNonce;
     await next();
   });
 
@@ -59,9 +62,9 @@ export const setupContentSecurityPolicy = async (app: Koa) => {
           scriptSrc: [
             "'strict-dynamic'",
             "'self'",
-            (_, res) => `'nonce-${res.getHeader('CSP')}'`,
+            () => `'nonce-${tempNonce}'`,
           ],
-          scriptSrcAttr: [(_, res) => `'nonce-${res.getHeader('CSP')}'`],
+          scriptSrcAttr: [() => `'nonce-${tempNonce}'`],
           'upgrade-insecure-requests': null,
         },
       },
@@ -78,7 +81,7 @@ export const setupRemixKoaApp = (app: Koa) =>
       mode: MODE,
       getLoadContext: (ctx) => ({
         serverBuild: getBuild(),
-        cspNonce: ctx.response.get('CSP'),
+        cspNonce: ctx.state.cspNonce,
       }),
     }),
   );
