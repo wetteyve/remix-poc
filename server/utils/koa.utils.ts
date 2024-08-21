@@ -105,6 +105,25 @@ export const setupIndexing = (app: Koa) => {
   }
 };
 
+export const setupRedirect = (app: Koa) => {
+  console.log('Setting up redirect middleware');
+  app.use((ctx, next) => {
+    const { request } = ctx;
+
+    if (request.path.endsWith('/') && request.path.length > 1) {
+      const query = request.url.slice(request.path.length);
+      const safepath = request.path.slice(0, -1).replace(/\/+/g, '/');
+
+      console.log(`Redirecting ${request.path} to ${safepath}${query}`);
+
+      ctx.status = 301;
+      ctx.redirect(safepath + query);
+    } else {
+      next();
+    }
+  });
+};
+
 export const startKoaServer = async (app: Koa) => {
   const IS_DEV = MODE === 'development';
 

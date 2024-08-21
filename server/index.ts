@@ -4,6 +4,7 @@ import {
   setupCompression,
   setupContentSecurityPolicy,
   setupIndexing,
+  setupRedirect,
   setupRemixKoaApp,
   setupStaticFileServing,
   startKoaServer,
@@ -22,6 +23,7 @@ setupStaticFileServing(app);
 setupContentSecurityPolicy(app);
 setupRemixKoaApp(app);
 setupIndexing(app);
+setupRedirect(app);
 
 // Start the server.
 startKoaServer(app);
