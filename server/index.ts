@@ -21,9 +21,9 @@ const app = new Koa();
 setupCompression(app);
 setupStaticFileServing(app);
 setupContentSecurityPolicy(app);
+setupRedirect(app);
 setupRemixKoaApp(app);
 setupIndexing(app);
-setupRedirect(app);
 
 // Start the server.
 startKoaServer(app);
