@@ -7,7 +7,6 @@ import getPort, { portNumbers } from 'get-port';
 import Koa from 'koa';
 import compress from 'koa-compress';
 import connect from 'koa-connect';
-import helmet from 'koa-helmet';
 import mount from 'koa-mount';
 import serve from 'koa-static';
 import { createRequestHandler } from 'remix-koa-adapter';
@@ -45,7 +44,7 @@ export const setupContentSecurityPolicy = async (app: Koa) => {
     await next();
   });
 
-  app.use(
+  /* app.use(
     helmet({
       referrerPolicy: { policy: 'same-origin' },
       contentSecurityPolicy: {
@@ -70,7 +69,7 @@ export const setupContentSecurityPolicy = async (app: Koa) => {
       },
       noSniff: false,
     }),
-  );
+  ); */
 };
 
 export const setupRemixKoaApp = (app: Koa) =>
