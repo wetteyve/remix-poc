@@ -3,6 +3,7 @@ import { ServerMode } from '../app/utils/env.server.js';
 import {
   setupCompression,
   setupContentSecurityPolicy,
+  setupHTTPSRedirect,
   setupIndexing,
   setupRedirect,
   setupRemixKoaApp,
@@ -19,6 +20,7 @@ export const viteDevServer = await getVideDevServer();
 // Setup a new Koa app.
 const app = new Koa();
 setupCompression(app);
+MODE !== 'development' && setupHTTPSRedirect(app);
 setupStaticFileServing(app);
 setupContentSecurityPolicy(app);
 setupRedirect(app);

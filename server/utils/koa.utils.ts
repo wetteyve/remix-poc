@@ -15,6 +15,19 @@ import { MODE, viteDevServer } from '../index.js';
 
 export const setupCompression = (app: Koa) => app.use(compress());
 
+export const setupHTTPSRedirect = (app: Koa) => {
+  app.use(async (ctx, next) => {
+    const { request } = ctx;
+    const proto = request.protocol;
+
+    if (proto === 'http') {
+      ctx.redirect(`https://${request.host}${request.url}`);
+    } else {
+      await next();
+    }
+  });
+};
+
 export const setupStaticFileServing = (app: Koa) => {
   if (viteDevServer) {
     app.use(connect(viteDevServer.middlewares));
