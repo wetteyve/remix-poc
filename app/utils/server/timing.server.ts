@@ -1,16 +1,16 @@
 export type Timings = Record<
   string,
   Array<
-    { desc?: string } & (
+    { description?: string } & (
       | { time: number; start?: never }
       | { time?: never; start: number }
     )
   >
 >;
 
-export function makeTimings(type: string, desc?: string) {
+export function makeTimings(type: string, description?: string) {
   const timings: Timings = {
-    [type]: [{ desc, start: performance.now() }],
+    [type]: [{ description, start: performance.now() }],
   };
   Object.defineProperty(timings, 'toString', {
     value: function () {
@@ -21,7 +21,7 @@ export function makeTimings(type: string, desc?: string) {
   return timings;
 }
 
-function createTimer(type: string, desc?: string) {
+function createTimer(type: string, description?: string) {
   const start = performance.now();
   return {
     end(timings: Timings) {
@@ -30,7 +30,7 @@ function createTimer(type: string, desc?: string) {
       if (!timingType) {
         timingType = timings[type] = [];
       }
-      timingType.push({ desc, time: performance.now() - start });
+      timingType.push({ description, time: performance.now() - start });
     },
   };
 }
@@ -39,15 +39,15 @@ export async function time<ReturnType>(
   fn: Promise<ReturnType> | (() => ReturnType | Promise<ReturnType>),
   {
     type,
-    desc,
+    description,
     timings,
   }: {
     type: string;
-    desc?: string;
+    description?: string;
     timings?: Timings;
   },
 ): Promise<ReturnType> {
-  const timer = createTimer(type, desc);
+  const timer = createTimer(type, description);
   const promise = typeof fn === 'function' ? fn() : fn;
   if (!timings) return promise;
 
@@ -67,13 +67,13 @@ export function getServerTimeHeader(timings?: Timings) {
           return acc + time;
         }, 0)
         .toFixed(1);
-      const desc = timingInfos
-        .map((t) => t.desc)
+      const description = timingInfos
+        .map((t) => t.description)
         .filter(Boolean)
         .join(' & ');
       return [
         key.replaceAll(/(:| |@|=|;|,|\/|\\)/g, '_'),
-        desc ? `desc=${JSON.stringify(desc)}` : null,
+        description ? `description=${JSON.stringify(description)}` : null,
         `dur=${dur}`,
       ]
         .filter(Boolean)
