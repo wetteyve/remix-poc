@@ -1,16 +1,11 @@
 export type Timings = Record<
   string,
-  Array<
-    { description?: string } & (
-      | { time: number; start?: never }
-      | { time?: never; start: number }
-    )
-  >
+  Array<{ time: number; start?: never } | { time?: never; start: number }>
 >;
 
-export function makeTimings(type: string, description?: string) {
+export function makeTimings(type: string) {
   const timings: Timings = {
-    [type]: [{ description, start: performance.now() }],
+    [type]: [{ start: performance.now() }],
   };
   Object.defineProperty(timings, 'toString', {
     value: function () {
@@ -21,7 +16,7 @@ export function makeTimings(type: string, description?: string) {
   return timings;
 }
 
-function createTimer(type: string, description?: string) {
+function createTimer(type: string) {
   const start = performance.now();
   return {
     end(timings: Timings) {
@@ -30,7 +25,7 @@ function createTimer(type: string, description?: string) {
       if (!timingType) {
         timingType = timings[type] = [];
       }
-      timingType.push({ description, time: performance.now() - start });
+      timingType.push({ time: performance.now() - start });
     },
   };
 }
@@ -39,15 +34,13 @@ export async function time<ReturnType>(
   fn: Promise<ReturnType> | (() => ReturnType | Promise<ReturnType>),
   {
     type,
-    description,
     timings,
   }: {
     type: string;
-    description?: string;
     timings?: Timings;
   },
 ): Promise<ReturnType> {
-  const timer = createTimer(type, description);
+  const timer = createTimer(type);
   const promise = typeof fn === 'function' ? fn() : fn;
   if (!timings) return promise;
 
@@ -60,20 +53,15 @@ export async function time<ReturnType>(
 export function getServerTimeHeader(timings?: Timings) {
   if (!timings) return '';
   return Object.entries(timings)
-    .map(([key, timingInfos]) => {
+    .map(([key, timingInfos], i) => {
       const dur = timingInfos
         .reduce((acc, timingInfo) => {
           const time = timingInfo.time ?? performance.now() - timingInfo.start;
           return acc + time;
         }, 0)
         .toFixed(1);
-      const description = timingInfos
-        .map((t) => t.description)
-        .filter(Boolean)
-        .join(' & ');
       return [
-        key.replaceAll(/(:| |@|=|;|,|\/|\\)/g, '_'),
-        description ? `description=${JSON.stringify(description)}` : null,
+        `0${i}_${key.replaceAll(/(:| |@|=|;|,|\/|\\)/g, '_')}`,
         `dur=${dur}`,
       ]
         .filter(Boolean)

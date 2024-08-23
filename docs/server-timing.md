@@ -34,22 +34,22 @@ import {
 } from '../utils/server/timing.server';
 
 export async function loader({}: LoaderFunctionArgs) {
-  const timings = makeTimings('test loader'); // <-- 1. Setup Timings
-  // 2. Time functions
-  const timed1 = await time(
-    () =>
-      new Promise<string>((resolve) => setTimeout(() => resolve('timed1'), 55)),
-    { timings, type: 'test timed1' },
-  );
-  if (!timed1) {
-    throw new Response('Not found', { status: 404 });
-  }
+  const timings = makeTimings('wait for APIs'); // <-- 1. Setup Timings
   // 2. Time functions
   const timed2 = await time(
     () =>
       new Promise<string>((resolve) => setTimeout(() => resolve('timed2'), 97)),
-    { timings, type: 'test timed2' },
+    { timings, type: 'api timed2' },
   );
+  // 2. Time functions
+  const timed1 = await time(
+    () =>
+      new Promise<string>((resolve) => setTimeout(() => resolve('timed1'), 55)),
+    { timings, type: 'api timed1' },
+  );
+  if (!timed1) {
+    throw new Response('Not found', { status: 404 });
+  }
   return json(
     { timed1, timed2 },
     { headers: { 'Server-Timing': timings.toString() } }, // <-- 3. Create headers
