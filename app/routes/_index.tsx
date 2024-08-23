@@ -1,4 +1,3 @@
-import { HeadersFunction, json, LoaderFunctionArgs } from '@remix-run/node';
 import {
   AlertLink,
   PrimaryLink,
@@ -6,40 +5,6 @@ import {
   TransparentLink,
 } from '@styled-components/ClickableComponents/Link';
 import React from 'react';
-import {
-  combineServerTimings,
-  makeTimings,
-  time,
-} from '../utils/server/timing.server';
-
-export async function loader({}: LoaderFunctionArgs) {
-  const timings = makeTimings('test loader', 'this is just a description'); // <-- 1. Setup Timings
-  // 2. Time functions
-  const timed1 = await time(
-    () =>
-      new Promise<string>((resolve) => setTimeout(() => resolve('timed1'), 55)),
-    { timings, type: 'test timed1' },
-  );
-  if (!timed1) {
-    throw new Response('Not found', { status: 404 });
-  }
-  // 2. Time functions
-  const timed2 = await time(
-    () =>
-      new Promise<string>((resolve) => setTimeout(() => resolve('timed2'), 97)),
-    { timings, type: 'test timed2' },
-  );
-  return json(
-    { timed1, timed2 },
-    { headers: { 'Server-Timing': timings.toString() } }, // <-- 3. Create headers
-  );
-}
-
-export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
-  return {
-    'Server-Timing': combineServerTimings(parentHeaders, loaderHeaders), // <-- 4. Send headers
-  };
-};
 
 const Index = () => {
   return (
