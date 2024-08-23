@@ -13,8 +13,8 @@ import { renderHeadToString } from 'remix-island';
 import { PassThrough } from 'stream';
 import { ServerStyleSheet } from 'styled-components';
 import { getHead } from './root';
-import { getEnv, init } from './utils/env.server';
 import { NonceProvider } from './utils/providers/nonce.provider';
+import { getEnv, init } from './utils/server/env.server';
 
 const ABORT_DELAY = 5000;
 
