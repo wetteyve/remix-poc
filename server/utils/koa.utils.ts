@@ -15,6 +15,18 @@ import { MODE, viteDevServer } from '../index.js';
 
 export const setupCompression = (app: Koa) => app.use(compress());
 
+export const setupHTTPSRedirect = (app: Koa) => {
+  app.use(async (ctx, next) => {
+    const { host, protocol, url } = ctx;
+    const ENFORCE_HTTPS = process.env.IS_PROD;
+    if (protocol === 'http' && ENFORCE_HTTPS === 'true') {
+      ctx.redirect(`https://${host}${url}`);
+    } else {
+      await next();
+    }
+  });
+};
+
 export const setupStaticFileServing = (app: Koa) => {
   if (viteDevServer) {
     app.use(connect(viteDevServer.middlewares));
@@ -112,6 +124,21 @@ export const setupIndexing = (app: Koa) => {
       await next();
     });
   }
+};
+
+export const setupRedirect = (app: Koa) => {
+  app.use(async (ctx, next) => {
+    const { request } = ctx;
+
+    if (request.url.endsWith('/') && request.path.length > 1) {
+      const redirectedUrl = request.url.slice(0, -1).replace(/\/+/g, '/');
+
+      ctx.status = 301;
+      ctx.redirect(redirectedUrl);
+    } else {
+      await next();
+    }
+  });
 };
 
 export const startKoaServer = async (app: Koa) => {
