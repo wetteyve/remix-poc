@@ -1,8 +1,10 @@
+import { Outlet } from '@remix-run/react';
 import { Box } from '@styled-components/Box';
 import React from 'react';
 import { type RouteObject } from 'react-router-dom';
 
 type RouteObjectWithMeta = RouteObject & {
+  children?: RouteObjectWithMeta[];
   meta?: {
     title: string;
     description: string;
@@ -12,7 +14,18 @@ type RouteObjectWithMeta = RouteObject & {
 export const routesConfig: RouteObjectWithMeta[] = [
   {
     path: 'old-about',
-    element: <Box>About</Box>,
+    element: (
+      <>
+        <Box>About</Box>
+        <Outlet />
+      </>
+    ),
+    children: [
+      {
+        path: 'sub-about',
+        element: <Box>Sub About</Box>,
+      },
+    ],
     meta: {
       title: 'Old About',
       description: 'This is the about page',
