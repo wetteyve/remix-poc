@@ -14,15 +14,13 @@ import { getVideDevServer } from './utils/vite.utils.js';
 
 export const MODE = (process.env.NODE_ENV as ServerMode) ?? 'development';
 
-const isLocal = process.env.IS_LOCAL;
-
 // Create a vite dev server if needed.
 export const viteDevServer = await getVideDevServer();
 
 // Setup a new Koa app.
 const app = new Koa();
 setupCompression(app);
-!isLocal && setupHTTPSRedirect(app);
+setupHTTPSRedirect(app);
 setupStaticFileServing(app);
 setupContentSecurityPolicy(app);
 setupRedirect(app);
