@@ -5,7 +5,7 @@ import {
   TransparentLink,
 } from '@styled-components/ClickableComponents/Link';
 import React from 'react';
-import { Icon } from '../components/ui/icon';
+import { Icon } from '../components/icon';
 
 const Index = () => {
   return (
