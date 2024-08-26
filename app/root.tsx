@@ -17,18 +17,21 @@ import { defaultTheme } from '@styled-components/styles/Themes';
 import React from 'react';
 import { createHead } from 'remix-island';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
+import fontStyleSheetUrl from './styles/SRGSSRType.css?url';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
 import { useNonce } from './utils//providers/nonce.provider';
-import { getEnv } from './utils/env.server';
 import {
   ClientHintCheck,
   getHints,
 } from './utils/providers/client-hints.provider';
+import { getEnv } from './utils/server/env.server';
 import { getTheme } from './utils/theme.server';
 
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: tailwindStyleSheetUrl },
+    { rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
+    { rel: 'stylesheet', href: fontStyleSheetUrl },
     { rel: 'icon', href: '/favicon.ico' },
   ].filter(Boolean);
 };

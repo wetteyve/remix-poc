@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import { ServerMode } from '../app/utils/env.server.js';
+import { ServerMode } from '../app/utils/server/env.server.js';
 import {
   setupCompression,
   setupContentSecurityPolicy,

@@ -40,6 +40,15 @@ export const setupStaticFileServing = (app: Koa) => {
         }),
       ),
     );
+    app.use(
+      mount(
+        '/fonts',
+        serve('public/fonts', {
+          immutable: true,
+          maxAge: 1000 * 60 * 24 * 365,
+        }),
+      ),
+    );
     // Everything else (like favicon.ico) is cached for an hour. You may want to be
     // more aggressive with this caching.
     app.use(mount('/', serve('build/client', { maxAge: 1000 * 60 * 60 })));
