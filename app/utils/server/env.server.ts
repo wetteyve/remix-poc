@@ -6,7 +6,7 @@ export type ServerMode = (typeof serverModes)[number];
 const schema = z.object({
   NODE_ENV: z.enum(serverModes),
   ALLOW_INDEXING: z.enum(['true', 'false']).optional(),
-  IS_LOCAL: z.enum(['true', 'false']).optional(),
+  IS_PROD: z.enum(['true', 'false']).optional(),
 });
 
 declare global {

@@ -16,10 +16,11 @@ import { MODE, viteDevServer } from '../index.js';
 export const setupCompression = (app: Koa) => app.use(compress());
 
 export const setupHTTPSRedirect = (app: Koa) => {
-  app.use(async ({ request: { protocol, host, url }, redirect }, next) => {
-    const ENFORCE_HTTPS = !process.env.IS_LOCAL;
-    if (protocol === 'http' && ENFORCE_HTTPS) {
-      redirect(`https://${host}${url}`);
+  app.use(async (ctx, next) => {
+    const { host, protocol, url } = ctx;
+    const ENFORCE_HTTPS = process.env.IS_PROD;
+    if (protocol === 'http' && ENFORCE_HTTPS === 'true') {
+      ctx.redirect(`https://${host}${url}`);
     } else {
       await next();
     }
