@@ -4,6 +4,8 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "yoavbls.pretty-ts-errors",
-    "github.vscode-github-actions"
+    "github.vscode-github-actions",
+    "vscode-icons-team.vscode-icons",
+    "dsznajder.es7-react-js-snippets"
   ]
 }
