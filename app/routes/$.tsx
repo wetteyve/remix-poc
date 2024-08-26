@@ -1,5 +1,5 @@
 import { type SEOHandle } from '@nasa-gcn/remix-seo';
-import { MetaFunction } from '@remix-run/react';
+import { type MetaFunction } from '@remix-run/react';
 import { serverOnly$ } from 'vite-env-only/macros';
 import { routesConfig } from '../utils/routesConfig';
 
