@@ -1,5 +1,5 @@
-import { cn } from '#app/utils/misc.tsx';
-import { type IconName } from '@/icon-name';
+import { type IconName } from '@icon-name';
+import clsx from 'clsx';
 import React, { type SVGProps } from 'react';
 import href from './icons/sprite.svg';
 
@@ -48,7 +48,7 @@ export function Icon({
   return (
     <svg
       {...props}
-      className={cn(sizeClassName[size], 'inline self-center', className)}
+      className={clsx(sizeClassName[size], 'inline self-center', className)}
     >
       <use href={`${href}#${name}`} />
     </svg>

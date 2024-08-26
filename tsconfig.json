@@ -18,8 +18,8 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./types", "./node_modules/@types"],
     "paths": {
-      "#*": ["./*"],
-      "@/icon-name": [
+      "@*": ["./*"],
+      "@icon-name": [
         "./app/components/ui/icons/name.d.ts",
         "./types/icon-name.d.ts"
       ],
