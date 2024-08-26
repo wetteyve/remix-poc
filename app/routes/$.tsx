@@ -1,20 +1,27 @@
 import { type SEOHandle } from '@nasa-gcn/remix-seo';
-import { type MetaFunction } from '@remix-run/react';
+import { MetaFunction } from '@remix-run/react';
 import { serverOnly$ } from 'vite-env-only/macros';
 import { routesConfig } from '../utils/routesConfig';
 
 export { default } from '../old-app/app';
 
-export const meta: MetaFunction = () => {
-  return [
-    {
-      title: 'Old App',
-    },
-    {
-      name: 'description',
-      content: 'This is the old app',
-    }
-  ];
+export const meta: MetaFunction = ({ location }) => {
+  const currentLocation = location.pathname.slice(1);
+  const currentRoute = routesConfig.find(
+    (route) => route.path === currentLocation,
+  );
+
+  if (currentRoute?.meta) {
+    return [
+      {
+        title: currentRoute.meta.title,
+      },
+      {
+        name: 'description',
+        content: currentRoute.meta.description,
+      },
+    ];
+  }
 };
 
 export const handle: SEOHandle = {
