@@ -3,7 +3,7 @@ import { Box } from '@styled-components/Box';
 import React from 'react';
 import { type RouteObject } from 'react-router-dom';
 
-type RouteObjectWithMeta = RouteObject & {
+export type RouteObjectWithMeta = RouteObject & {
   children?: RouteObjectWithMeta[];
   meta?: {
     title: string;
@@ -24,6 +24,9 @@ export const routesConfig: RouteObjectWithMeta[] = [
       {
         path: 'sub-about',
         element: <Box>Sub About</Box>,
+        handle: () => {
+          return { test: true };
+        },
       },
     ],
     meta: {

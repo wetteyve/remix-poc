@@ -6,12 +6,15 @@ import { routesConfig } from '../utils/routesConfig';
 export { default } from '../old-app/app';
 
 export const meta: MetaFunction = ({ location, matches }) => {
-  console.log('matches', matches);
-  const currentLocation = location.pathname.slice(1);
-  console.log('currentLocation', currentLocation);
-  const currentRoute = routesConfig.find(
-    (route) => route.path === currentLocation,
-  );
+  console.log(matches);
+  const currentLocation = location.pathname;
+  const currentRoute = matches.filter(
+    (match) => match.pathname === currentLocation,
+  )[0];
+
+  //console.log('currentLocation', currentLocation);
+  //console.log('currentRoute', currentRoute);
+  //console.log('matches', matches);
 
   if (currentRoute?.meta) {
     return [
