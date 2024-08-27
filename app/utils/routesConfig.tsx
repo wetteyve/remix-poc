@@ -20,15 +20,6 @@ export const routesConfig: RouteObjectWithMeta[] = [
         <Outlet />
       </>
     ),
-    children: [
-      {
-        path: 'sub-about',
-        element: <Box>Sub About</Box>,
-        handle: () => {
-          return { test: true };
-        },
-      },
-    ],
     meta: {
       title: 'Old About',
       description: 'This is the about page',

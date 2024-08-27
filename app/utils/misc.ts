@@ -9,34 +9,6 @@ export function getDomainUrl(request: Request) {
   return `${protocol}://${host}`;
 }
 
-export function getMetadataForRoute(route: string) {
-  let metadata = null;
-  const routeArr = route.split('/');
-
-  if (!routeArr?.length) return null;
-
-  if (routeArr.length === 1) {
-    const routeObj = routesConfig.find((r) => r.path === route);
-    const { title, description } = routeObj?.meta ?? {};
-
-    metadata = [
-      {
-        title: title,
-      },
-      {
-        name: 'description',
-        content: description,
-      },
-    ];
-  }
-
-  if (routeArr.length > 1) {
-    for (let i = 0; i <= routeArr.length; i++) {
-      const currentRoute = routesConfig.find((r) => r.path === routeArr[i]);
-      if (currentRoute?.children) {
-      }
-    }
-  }
-
-  return metadata;
+export const getCurrentRoute = (location: string) => {
+  return routesConfig.filter((r) => '/' + r.path === location)[0];
 }

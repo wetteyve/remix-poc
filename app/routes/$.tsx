@@ -1,20 +1,19 @@
 import { type SEOHandle } from '@nasa-gcn/remix-seo';
 import { type MetaFunction } from '@remix-run/react';
 import { serverOnly$ } from 'vite-env-only/macros';
+import { getCurrentRoute } from '../utils/misc';
 import { routesConfig } from '../utils/routesConfig';
 
 export { default } from '../old-app/app';
 
-export const meta: MetaFunction = ({ location, matches }) => {
-  console.log(matches);
-  const currentLocation = location.pathname;
-  const currentRoute = matches.filter(
-    (match) => match.pathname === currentLocation,
-  )[0];
+export const meta: MetaFunction = ({ location }) => {
+  // Remove last character if it's a slash
+  // won't be necessary when merged with redirect branch
+  if (location.pathname.endsWith('/')) {
+    location.pathname = location.pathname.slice(0, -1);
+  }
 
-  //console.log('currentLocation', currentLocation);
-  //console.log('currentRoute', currentRoute);
-  //console.log('matches', matches);
+  const currentRoute = getCurrentRoute(location.pathname);
 
   if (currentRoute?.meta) {
     return [
