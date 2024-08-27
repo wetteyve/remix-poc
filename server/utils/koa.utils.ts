@@ -34,7 +34,7 @@ export const setupStaticFileServing = (app: Koa) => {
     // Remix fingerprints its assets so we can cache forever.
     app.use(
       mount(
-        '/assets',
+        `${process.env.REMIX_BASE_PATH}/assets`,
         serve('build/client/assets', {
           maxAge: 1000 * 60 * 60 * 24 * 100,
           immutable: true,
@@ -43,7 +43,7 @@ export const setupStaticFileServing = (app: Koa) => {
     );
     app.use(
       mount(
-        '/fonts',
+        `${process.env.REMIX_BASE_PATH}/fonts`,
         serve('public/fonts', {
           immutable: true,
           maxAge: 1000 * 60 * 24 * 365,
@@ -52,7 +52,12 @@ export const setupStaticFileServing = (app: Koa) => {
     );
     // Everything else (like favicon.ico) is cached for an hour. You may want to be
     // more aggressive with this caching.
-    app.use(mount('/', serve('build/client', { maxAge: 1000 * 60 * 60 })));
+    app.use(
+      mount(
+        `${process.env.REMIX_BASE_PATH}/`,
+        serve('build/client', { maxAge: 1000 * 60 * 60 }),
+      ),
+    );
   }
 };
 
