@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const MODE = process.env.NODE_ENV;
+const REMIX_BASE_PATH = process.env.REMIX_BASE_PATH;
 
 export default defineConfig({
   build: {
@@ -20,8 +21,11 @@ export default defineConfig({
       ignored: ['**/playwright-report/**'],
     },
   },
+  base: MODE === 'production' ? `${REMIX_BASE_PATH}/` : undefined,
   plugins: [
+    tsconfigPaths(),
     remix({
+      basename: REMIX_BASE_PATH,
       ignoredRouteFiles: ['**/*'],
       serverModuleFormat: 'esm',
       routes: async (defineRoutes) => {
@@ -42,6 +46,5 @@ export default defineConfig({
         });
       },
     }),
-    tsconfigPaths(),
   ],
 });

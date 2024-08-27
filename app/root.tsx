@@ -25,7 +25,7 @@ import {
   getHints,
 } from './utils/providers/client-hints.provider';
 import { getEnv } from './utils/server/env.server';
-import { getTheme } from './utils/theme.server';
+import { getTheme } from './utils/server/theme.server';
 
 export const links: LinksFunction = () => {
   return [

@@ -13,6 +13,7 @@ import {
 import { getVideDevServer } from './utils/vite.utils.js';
 
 export const MODE = (process.env.NODE_ENV as ServerMode) ?? 'development';
+export const REMIX_BASE_PATH = process.env.REMIX_BASE_PATH ?? '';
 
 // Create a vite dev server if needed.
 export const viteDevServer = await getVideDevServer();
