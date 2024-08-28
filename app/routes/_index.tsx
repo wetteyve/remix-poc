@@ -5,6 +5,7 @@ import {
   TransparentLink,
 } from '@styled-components/ClickableComponents/Link';
 import React from 'react';
+import { Icon } from '../components/icon';
 
 const Index = () => {
   return (
@@ -12,6 +13,15 @@ const Index = () => {
       <h1 className="text-xl font-semibold">
         Play SRG 👰‍♀️ & 🤵‍♂️ Remix = PlayNext ❤️‍🔥
       </h1>
+      <div className="items-center justify-center text-center">
+        <h2 className="text-lg font-semibold">Icons demo</h2>
+        <div className="">
+          <Icon className="m-1" name="srf" size="xl" />
+          <Icon className="m-1" name="rsi" size="xl" />
+          <Icon className="m-1" name="rtr" size="xl" />
+          <Icon className="m-1" name="rts" size="xl" />
+        </div>
+      </div>
       <PrimaryLink to="old-help" text="Help page" type="text" />
       <SecondaryLink to="old-about" text="About page" type="text" />
       <AlertLink to="old-page" text="Another page" type="text" />
