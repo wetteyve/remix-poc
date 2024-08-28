@@ -6,6 +6,7 @@ import {
   TransparentLink,
 } from '@styled-components/ClickableComponents/Link';
 import React from 'react';
+import { Icon } from '../components/icon';
 import { OutletContext } from '../root';
 
 const Index = () => {
@@ -16,6 +17,15 @@ const Index = () => {
       <h1 className="text-xl font-semibold">
         Play SRG 👰‍♀️ & 🤵‍♂️ Remix = PlayNext ❤️‍🔥
       </h1>
+      <div className="items-center justify-center text-center">
+        <h2 className="text-lg font-semibold">Icons demo</h2>
+        <div className="">
+          <Icon className="m-1" name="srf" size="xl" />
+          <Icon className="m-1" name="rsi" size="xl" />
+          <Icon className="m-1" name="rtr" size="xl" />
+          <Icon className="m-1" name="rts" size="xl" />
+        </div>
+      </div>
       <PrimaryLink
         to={`${REMIX_BASE_PATH}/old-help`}
         text="Help page"

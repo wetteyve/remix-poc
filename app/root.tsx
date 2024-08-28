@@ -17,6 +17,7 @@ import { defaultTheme } from '@styled-components/styles/Themes';
 import React from 'react';
 import { createHead } from 'remix-island';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
+import { href as iconsHref } from './components/icon';
 import fontStyleSheetUrl from './styles/SRGSSRType.css?url';
 import tailwindStyleSheetUrl from './styles/tailwind.css?url';
 import { useNonce } from './utils//providers/nonce.provider';
@@ -29,6 +30,7 @@ import { getTheme } from './utils/server/theme.server';
 
 export const links: LinksFunction = () => {
   return [
+    { rel: 'preload', href: iconsHref, as: 'image' },
     { rel: 'stylesheet', href: tailwindStyleSheetUrl },
     { rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
     { rel: 'stylesheet', href: fontStyleSheetUrl },
