@@ -6,6 +6,7 @@ export type ServerMode = (typeof serverModes)[number];
 const schema = z.object({
   NODE_ENV: z.enum(serverModes),
   ALLOW_INDEXING: z.enum(['true', 'false']).optional(),
+  SESSION_SECRET: z.string(),
 });
 
 declare global {
@@ -40,6 +41,7 @@ export function getEnv() {
   return {
     MODE: process.env.NODE_ENV as ServerMode,
     ALLOW_INDEXING: process.env.ALLOW_INDEXING,
+    SESSION_SECRET: process.env.SESSION_SECRET,
   };
 }
 
