@@ -7,6 +7,7 @@ const schema = z.object({
   NODE_ENV: z.enum(serverModes),
   ALLOW_INDEXING: z.enum(['true', 'false']).optional(),
   IS_PROD: z.enum(['true', 'false']).optional(),
+  REMIX_BASE_PATH: z.string().optional(),
 });
 
 declare global {
@@ -41,6 +42,8 @@ export function getEnv() {
   return {
     MODE: process.env.NODE_ENV as ServerMode,
     ALLOW_INDEXING: process.env.ALLOW_INDEXING,
+    IS_PROD: process.env.IS_PROD,
+    REMIX_BASE_PATH: process.env.REMIX_BASE_PATH,
   };
 }
 

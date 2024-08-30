@@ -26,7 +26,7 @@ import {
   getHints,
 } from './utils/providers/client-hints.provider';
 import { getEnv } from './utils/server/env.server';
-import { getTheme } from './utils/theme.server';
+import { getTheme } from './utils/server/theme.server';
 
 export const links: LinksFunction = () => {
   return [
@@ -78,9 +78,16 @@ export const getHead = (nonce: string) =>
     );
   });
 
+export type OutletContext = {
+  REMIX_BASE_PATH: string;
+};
+
 const App = () => {
   const data = useLoaderData<typeof loader>();
   const nonce = useNonce();
+  const outletContext: OutletContext = {
+    REMIX_BASE_PATH: data.ENV.REMIX_BASE_PATH ?? '',
+  };
 
   return (
     <StyleSheetManager
@@ -95,7 +102,7 @@ const App = () => {
             </nav>
           </header>
           <div className="flex-1">
-            <Outlet />
+            <Outlet context={outletContext} />
           </div>
           <footer className="bg-slate-200 p-6">
             <div className="text-4xl font-semibold">Footer</div>

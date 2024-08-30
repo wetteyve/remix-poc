@@ -5,6 +5,9 @@
   "author": "SRG SSR",
   "sideEffects": false,
   "type": "module",
+  "imports": {
+    "@styled-components/*": "./app/components/styled-components/*"
+  },
   "scripts": {
     "build": "run-s build:*",
     "build:server": "tsx ./other/build-server.ts",
