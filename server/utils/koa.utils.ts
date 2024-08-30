@@ -35,7 +35,7 @@ export const setupStaticFileServing = (app: Koa) => {
     app.use(
       mount(
         `${process.env.REMIX_BASE_PATH}/assets`,
-        serve('build/client/assets', {
+        serve('build/remix/client/assets', {
           maxAge: 1000 * 60 * 60 * 24 * 100,
           immutable: true,
         }),
@@ -55,7 +55,7 @@ export const setupStaticFileServing = (app: Koa) => {
     app.use(
       mount(
         `${process.env.REMIX_BASE_PATH}/`,
-        serve('build/client', { maxAge: 1000 * 60 * 60 }),
+        serve('build/remix/client', { maxAge: 1000 * 60 * 60 }),
       ),
     );
   }
@@ -117,7 +117,7 @@ async function getBuild() {
     ? viteDevServer.ssrLoadModule('virtual:remix/server-build')
     : // @ts-ignore this should exist before running the server
       // but it may not exist just yet.
-      await import('../../build/server/index.js');
+      await import('../../remix/server/index.js');
   return build;
 }
 

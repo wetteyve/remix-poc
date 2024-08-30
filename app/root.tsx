@@ -34,7 +34,6 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: tailwindStyleSheetUrl },
     { rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
     { rel: 'stylesheet', href: fontStyleSheetUrl },
-    { rel: 'icon', href: '/favicon.ico' },
   ].filter(Boolean);
 };
 
@@ -73,6 +72,7 @@ export const getHead = (nonce: string) =>
         {allowIndexing ? null : (
           <meta name="robots" content="noindex, nofollow" />
         )}
+        <link rel="icon" href={`${data.ENV.REMIX_BASE_PATH}/favicon.ico`} />
         <Links />
       </>
     );

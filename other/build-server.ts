@@ -31,13 +31,12 @@ for (const file of allFiles) {
   }
 }
 
-console.log();
 console.log('building...');
 
 esbuild
   .build({
     entryPoints: entries,
-    outdir: here('../server-build'),
+    outdir: here('../build/server'),
     target: [`node${pkg.engines.node}`],
     platform: 'node',
     sourcemap: true,

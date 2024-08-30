@@ -5,15 +5,15 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 const MODE = process.env.NODE_ENV;
 const REMIX_BASE_PATH = process.env.REMIX_BASE_PATH;
+const outDir = 'build/remix';
 
 export default defineConfig({
   build: {
+    outDir: outDir,
     cssMinify: MODE === 'production',
-
     rollupOptions: {
       external: [/node:.*/, 'stream', 'crypto', 'fsevents'],
     },
-
     sourcemap: true,
   },
   server: {
@@ -25,6 +25,7 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     remix({
+      buildDirectory: outDir,
       basename: REMIX_BASE_PATH,
       ignoredRouteFiles: ['**/*'],
       serverModuleFormat: 'esm',
